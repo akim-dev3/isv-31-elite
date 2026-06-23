@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ПМ.08 / МДК.08.01 — Шпаргалка к экзамену</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<meta name="theme-color" content="#5a3df0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -251,6 +254,63 @@ table.crit tr:last-child td{border-bottom:none}
 
 .muted{color:var(--text-mute);font-size:13px}
 
+/* ========== Чекбокс выбора в карточке ========== */
+.qa-pick{
+  flex:none;display:grid;place-items:center;
+  width:22px;height:22px;border-radius:6px;
+  background:var(--bg-elev);border:1.5px solid var(--border);
+  cursor:pointer;transition:all .15s;
+  margin-top:4px;
+}
+.qa-pick:hover{border-color:var(--accent)}
+.qa-pick svg{opacity:0;color:#fff}
+.qa.picked .qa-pick{background:var(--accent);border-color:var(--accent)}
+.qa.picked .qa-pick svg{opacity:1}
+.qa.picked{border-color:var(--accent)}
+
+/* ========== Toolbar select all ========== */
+.toolbar .pick-all{
+  background:transparent;border:1px dashed var(--border);
+  color:var(--text-mute);
+}
+.toolbar .pick-all.on{border-style:solid;color:var(--accent);border-color:var(--accent)}
+
+/* ========== Плавающая панель экспорта ========== */
+.export-bar{
+  position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120%);
+  z-index:60;background:var(--bg-card);border:1px solid var(--border);
+  border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.45);
+  padding:10px 12px;display:flex;align-items:center;gap:10px;
+  transition:transform .3s cubic-bezier(.4,1.4,.6,1);
+  max-width:calc(100% - 24px);
+}
+.export-bar.show{transform:translateX(-50%) translateY(0)}
+.export-bar .count{
+  background:var(--accent-soft);color:var(--accent);
+  padding:6px 12px;border-radius:8px;font-weight:700;font-size:13px;
+}
+.export-bar button{
+  background:var(--accent);color:#fff;border:none;
+  padding:9px 16px;border-radius:8px;cursor:pointer;
+  font-weight:600;font-size:13.5px;
+  display:flex;align-items:center;gap:6px;
+}
+.export-bar button:hover{background:#4732c9}
+.export-bar .ghost{
+  background:transparent;color:var(--text-mute);padding:9px 10px;
+  border:1px solid var(--border);
+}
+.export-bar .ghost:hover{background:var(--bg-elev);color:var(--text)}
+
+/* ========== Селект-режим (видимые чекбоксы) ========== */
+body:not(.select-mode) .qa-pick{display:none}
+.select-toggle{
+  background:transparent;border:1px solid var(--border);
+  color:var(--text);padding:7px 12px;border-radius:8px;
+  font-weight:600;font-size:12.5px;cursor:pointer;
+}
+.select-toggle.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
 /* mobile */
 .menu-btn{
   display:none;position:fixed;top:14px;left:14px;z-index:50;
@@ -348,6 +408,20 @@ table.crit tr:last-child td{border-bottom:none}
           <b>Шкала оценки:</b> 41–45 баллов — «5», 32–40 — «4», 23–31 — «3». Максимум: 25 за тесты + 20 за практику. Полные критерии — в разделе «Критерии оценки».
         </div>
       </div>
+
+      <div class="tip" style="background:rgba(77,208,225,.08);border-color:rgba(77,208,225,.30)">
+        <span class="ic">📥</span>
+        <div>
+          <b>Экспорт в Word:</b> в любом разделе нажми «☑ Выбрать для экспорта» — у каждой карточки появится чекбокс. Отметь нужные вопросы (или «Выделить все»), внизу появится плавающая панель — кликни «Скачать .docx», файл откроется в Word/WPS с заголовками, кодом и решениями.
+        </div>
+      </div>
+
+      <div class="tip" style="background:rgba(255,184,107,.08);border-color:rgba(255,184,107,.30)">
+        <span class="ic">📶</span>
+        <div>
+          <b>Работает оффлайн:</b> сайт кэшируется при первом открытии. На экзамене, даже без интернета, всё будет доступно — открой страницу с телефона, и шпаргалка сразу загрузится.
+        </div>
+      </div>
     </section>
 
     <!-- ============ THEORY ============ -->
@@ -360,6 +434,8 @@ table.crit tr:last-child td{border-bottom:none}
       <div class="toolbar">
         <button data-action="expand" data-target="theory">Раскрыть все</button>
         <button data-action="collapse" data-target="theory">Свернуть все</button>
+        <button class="select-toggle" data-action="select-mode">☑ Выбрать для экспорта</button>
+        <button class="pick-all" data-action="pick-all" data-target="theory">Выделить все</button>
         <div class="spacer"></div>
         <div class="meta"><span id="theory-count">50</span> вопросов</div>
       </div>
@@ -376,6 +452,8 @@ table.crit tr:last-child td{border-bottom:none}
       <div class="toolbar">
         <button data-action="expand" data-target="practice">Раскрыть все</button>
         <button data-action="collapse" data-target="practice">Свернуть все</button>
+        <button class="select-toggle" data-action="select-mode">☑ Выбрать для экспорта</button>
+        <button class="pick-all" data-action="pick-all" data-target="practice">Выделить все</button>
         <div class="spacer"></div>
         <div class="meta"><span id="practice-count">25</span> заданий</div>
       </div>
@@ -388,6 +466,12 @@ table.crit tr:last-child td{border-bottom:none}
         <span class="eyebrow">Экзамен ПМ.08 · Вариант 1</span>
         <h1>Вариант 1 — тесты, открытые вопросы, практика</h1>
         <p class="lead">20 тестов с подсвеченным правильным ответом и пояснением, 5 открытых вопросов и практическое задание по Flex-сетке.</p>
+      </div>
+      <div class="toolbar">
+        <button data-action="expand" data-target="v1">Раскрыть все</button>
+        <button data-action="collapse" data-target="v1">Свернуть все</button>
+        <button class="select-toggle" data-action="select-mode">☑ Выбрать для экспорта</button>
+        <button class="pick-all" data-action="pick-all" data-target="v1">Выделить все</button>
       </div>
       <h2 style="margin:24px 0 8px;font-size:18px">Часть 1. Тестовые вопросы (1 балл за каждый)</h2>
       <div id="list-v1-tests"></div>
@@ -404,6 +488,12 @@ table.crit tr:last-child td{border-bottom:none}
         <h1>Вариант 2 — тесты, открытые вопросы, практика</h1>
         <p class="lead">20 тестов, 5 открытых вопросов и практическое задание по прототипированию интерфейса в Figma.</p>
       </div>
+      <div class="toolbar">
+        <button data-action="expand" data-target="v2">Раскрыть все</button>
+        <button data-action="collapse" data-target="v2">Свернуть все</button>
+        <button class="select-toggle" data-action="select-mode">☑ Выбрать для экспорта</button>
+        <button class="pick-all" data-action="pick-all" data-target="v2">Выделить все</button>
+      </div>
       <h2 style="margin:24px 0 8px;font-size:18px">Часть 1. Тестовые вопросы</h2>
       <div id="list-v2-tests"></div>
       <h2 style="margin:32px 0 8px;font-size:18px">Часть 2. Открытые вопросы</h2>
@@ -418,6 +508,12 @@ table.crit tr:last-child td{border-bottom:none}
         <span class="eyebrow">Экзамен ПМ.08 · Вариант 3</span>
         <h1>Вариант 3 — тесты, открытые вопросы, практика</h1>
         <p class="lead">20 тестов, 5 открытых вопросов и практика — адаптивная карточка товара (HTML/CSS).</p>
+      </div>
+      <div class="toolbar">
+        <button data-action="expand" data-target="v3">Раскрыть все</button>
+        <button data-action="collapse" data-target="v3">Свернуть все</button>
+        <button class="select-toggle" data-action="select-mode">☑ Выбрать для экспорта</button>
+        <button class="pick-all" data-action="pick-all" data-target="v3">Выделить все</button>
       </div>
       <h2 style="margin:24px 0 8px;font-size:18px">Часть 1. Тестовые вопросы</h2>
       <div id="list-v3-tests"></div>
@@ -492,7 +588,18 @@ table.crit tr:last-child td{border-bottom:none}
   </main>
 </div>
 
+<!-- Плавающая панель экспорта в Word -->
+<div class="export-bar" id="exportBar">
+  <span class="count" id="exportCount">Выбрано: 0</span>
+  <button id="exportBtn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Скачать .docx
+  </button>
+  <button class="ghost" id="exportClear">Очистить</button>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="vendor/html-docx.js"></script>
 <script src="data.js"></script>
 <script src="app.js"></script>
 </body>
