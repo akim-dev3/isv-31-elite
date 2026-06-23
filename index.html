@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ПМ.08 / МДК.08.01 — Шпаргалка к экзамену</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+:root{
+  --bg:#0b0d12; --bg-elev:#11141b; --bg-card:#151923; --border:#1f2530;
+  --text:#e6e9ef; --text-mute:#8a93a6; --text-dim:#5d6577;
+  --accent:#7c5cff; --accent-2:#4dd0e1; --accent-soft:rgba(124,92,255,.12);
+  --ok:#3dd68c; --warn:#ffb86b; --bad:#ff6b8a;
+  --code-bg:#0e1117;
+  --shadow:0 8px 30px rgba(0,0,0,.35);
+  --radius:14px;
+}
+[data-theme="light"]{
+  --bg:#f6f7fb; --bg-elev:#ffffff; --bg-card:#ffffff; --border:#e6e8ef;
+  --text:#1a1f2c; --text-mute:#5b6477; --text-dim:#8a93a6;
+  --accent:#5a3df0; --accent-2:#0c8aa8; --accent-soft:rgba(90,61,240,.08);
+  --code-bg:#0e1117;
+  --shadow:0 8px 24px rgba(20,25,40,.08);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Manrope',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:var(--bg);color:var(--text);
+  -webkit-font-smoothing:antialiased;line-height:1.55;
+  font-size:15.5px;
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+code,pre,kbd{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+::selection{background:var(--accent-soft);color:var(--text)}
+
+/* ========== Layout ========== */
+.app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+.sidebar{
+  position:sticky;top:0;height:100vh;
+  background:var(--bg-elev);border-right:1px solid var(--border);
+  padding:22px 18px;overflow-y:auto;
+}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.brand-mark{
+  width:38px;height:38px;border-radius:10px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  display:grid;place-items:center;color:#fff;font-weight:800;
+  box-shadow:0 6px 20px rgba(124,92,255,.35);
+}
+.brand-title{font-weight:800;font-size:15px;letter-spacing:.2px}
+.brand-sub{font-size:11.5px;color:var(--text-mute);margin-top:2px}
+
+.search{position:relative;margin:10px 0 18px}
+.search input{
+  width:100%;padding:10px 12px 10px 36px;border-radius:10px;
+  background:var(--bg-card);border:1px solid var(--border);color:var(--text);
+  outline:none;font-size:13.5px;
+}
+.search input:focus{border-color:var(--accent)}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);opacity:.6}
+
+.nav-group{margin-top:14px}
+.nav-label{
+  font-size:11px;font-weight:700;color:var(--text-dim);
+  text-transform:uppercase;letter-spacing:.8px;margin:0 8px 6px;
+}
+.nav a{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 10px;border-radius:8px;color:var(--text-mute);
+  font-size:13.5px;font-weight:500;
+}
+.nav a:hover{background:var(--bg-card);color:var(--text);text-decoration:none}
+.nav a.active{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.nav a .badge{
+  margin-left:auto;background:var(--bg-card);color:var(--text-dim);
+  padding:1px 7px;border-radius:999px;font-size:11px;font-weight:600;
+}
+.nav a.active .badge{background:var(--accent);color:#fff}
+
+.theme-toggle{
+  margin-top:18px;width:100%;padding:9px;border-radius:10px;
+  background:var(--bg-card);border:1px solid var(--border);color:var(--text);
+  cursor:pointer;font-weight:600;font-size:13px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.theme-toggle:hover{border-color:var(--accent)}
+
+/* ========== Main ========== */
+.main{padding:36px 44px 80px;max-width:1100px;width:100%}
+.section{display:none}
+.section.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.section-head{margin-bottom:24px}
+.eyebrow{
+  display:inline-block;font-size:11.5px;font-weight:700;
+  color:var(--accent);background:var(--accent-soft);
+  padding:4px 10px;border-radius:999px;letter-spacing:.5px;text-transform:uppercase;
+}
+.section h1{font-size:32px;line-height:1.15;margin:10px 0 6px;letter-spacing:-.4px;font-weight:800}
+.section .lead{color:var(--text-mute);font-size:15px;max-width:760px}
+
+.toolbar{
+  display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+  margin:16px 0 24px;padding:10px 12px;border-radius:12px;
+  background:var(--bg-elev);border:1px solid var(--border);
+}
+.toolbar button{
+  background:transparent;border:1px solid var(--border);
+  color:var(--text);padding:7px 12px;border-radius:8px;
+  font-weight:600;font-size:12.5px;cursor:pointer;
+}
+.toolbar button:hover{border-color:var(--accent);color:var(--accent)}
+.toolbar .spacer{flex:1}
+.toolbar .meta{color:var(--text-mute);font-size:12.5px}
+
+/* ========== Cards ========== */
+.qa{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);margin-bottom:14px;
+  transition:border-color .15s;
+}
+.qa:hover{border-color:#2a3140}
+.qa.hidden{display:none}
+.qa-head{
+  padding:16px 18px;cursor:pointer;
+  display:flex;align-items:flex-start;gap:14px;
+  user-select:none;
+}
+.qa-num{
+  flex:none;width:30px;height:30px;border-radius:8px;
+  background:var(--accent-soft);color:var(--accent);
+  display:grid;place-items:center;font-weight:700;font-size:13px;
+}
+.qa-title{font-weight:600;font-size:15.5px;line-height:1.4;flex:1}
+.qa-toggle{
+  flex:none;color:var(--text-dim);transition:transform .2s;
+}
+.qa.open .qa-toggle{transform:rotate(180deg);color:var(--accent)}
+.qa-body{
+  display:none;padding:4px 18px 18px;
+  border-top:1px dashed var(--border);
+}
+.qa.open .qa-body{display:block}
+.qa-body p{margin:10px 0}
+.qa-body ul,.qa-body ol{margin:8px 0 8px 18px;padding:0}
+.qa-body li{margin:4px 0}
+.qa-body strong{color:var(--text)}
+
+/* code blocks */
+pre{
+  background:var(--code-bg);border:1px solid #1c2230;
+  border-radius:10px;padding:14px 16px;overflow-x:auto;
+  font-size:13px;line-height:1.55;margin:12px 0;
+  position:relative;
+}
+pre code{font-family:'JetBrains Mono',monospace;color:#e6e9ef}
+.code-wrap{position:relative}
+.copy-btn{
+  position:absolute;top:8px;right:8px;
+  background:#1c2230;color:#cfd6e4;border:1px solid #2a3140;
+  padding:4px 9px;border-radius:6px;font-size:11.5px;
+  font-family:'Manrope',sans-serif;font-weight:600;cursor:pointer;
+  opacity:0;transition:opacity .15s;
+}
+.code-wrap:hover .copy-btn{opacity:1}
+.copy-btn.ok{background:var(--ok);color:#fff;border-color:var(--ok);opacity:1}
+code.inline{
+  background:var(--bg-elev);border:1px solid var(--border);
+  padding:1px 6px;border-radius:5px;font-size:.88em;color:var(--accent);
+}
+
+/* tests */
+.test-opts{display:grid;gap:8px;margin:12px 0 4px}
+.test-opt{
+  display:flex;gap:12px;padding:11px 14px;border-radius:10px;
+  background:var(--bg-elev);border:1px solid var(--border);
+  font-size:14px;cursor:default;
+}
+.test-opt .opt-letter{
+  flex:none;width:24px;height:24px;border-radius:6px;
+  background:var(--bg-card);color:var(--text-mute);
+  display:grid;place-items:center;font-weight:700;font-size:12px;
+}
+.test-opt.correct{
+  background:rgba(61,214,140,.08);border-color:rgba(61,214,140,.35);
+}
+.test-opt.correct .opt-letter{background:var(--ok);color:#fff}
+.test-opt.correct::after{
+  content:"✓ верно";margin-left:auto;color:var(--ok);
+  font-weight:700;font-size:12px;align-self:center;
+}
+.explain{
+  margin-top:10px;padding:10px 12px;border-radius:8px;
+  background:var(--accent-soft);border-left:3px solid var(--accent);
+  font-size:13.5px;color:var(--text);
+}
+.explain b{color:var(--accent)}
+
+/* practical big block */
+.practice{
+  background:linear-gradient(180deg,var(--bg-card),var(--bg-elev));
+  border:1px solid var(--border);border-radius:var(--radius);
+  padding:22px;margin-top:14px;
+}
+.practice h3{margin:0 0 6px;font-size:18px}
+.practice .req{
+  margin:14px 0;padding:14px 16px;background:var(--bg-elev);
+  border:1px solid var(--border);border-radius:10px;font-size:13.5px;
+}
+.practice .req b{color:var(--accent)}
+
+/* criteria table */
+.table-wrap{overflow-x:auto;margin:14px 0}
+table.crit{
+  width:100%;border-collapse:collapse;background:var(--bg-card);
+  border:1px solid var(--border);border-radius:12px;overflow:hidden;
+  font-size:13.5px;
+}
+table.crit th,table.crit td{
+  padding:12px 14px;text-align:left;border-bottom:1px solid var(--border);
+}
+table.crit th{
+  background:var(--bg-elev);font-weight:700;color:var(--text);
+  font-size:12.5px;text-transform:uppercase;letter-spacing:.4px;
+}
+table.crit td.score{font-weight:800;color:var(--accent);text-align:center;width:80px}
+table.crit tr.var-row td{background:var(--accent-soft);font-weight:700;color:var(--accent)}
+table.crit tr:last-child td{border-bottom:none}
+
+/* hero stats */
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}
+.stat{
+  background:var(--bg-card);border:1px solid var(--border);
+  padding:16px;border-radius:12px;
+}
+.stat .num{font-size:24px;font-weight:800;color:var(--accent)}
+.stat .lbl{font-size:12.5px;color:var(--text-mute);margin-top:2px}
+
+.tip{
+  margin:18px 0;padding:14px 16px;border-radius:12px;
+  background:var(--accent-soft);border:1px solid rgba(124,92,255,.25);
+  font-size:13.5px;display:flex;gap:12px;align-items:flex-start;
+}
+.tip .ic{font-size:18px}
+
+.muted{color:var(--text-mute);font-size:13px}
+
+/* mobile */
+.menu-btn{
+  display:none;position:fixed;top:14px;left:14px;z-index:50;
+  background:var(--bg-elev);border:1px solid var(--border);
+  border-radius:10px;padding:8px 10px;color:var(--text);cursor:pointer;
+}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  .sidebar{
+    position:fixed;left:-320px;width:300px;z-index:40;
+    transition:left .25s;box-shadow:var(--shadow);
+  }
+  .sidebar.open{left:0}
+  .main{padding:60px 18px 60px}
+  .menu-btn{display:block}
+  .hero-stats{grid-template-columns:1fr 1fr}
+  .section h1{font-size:24px}
+}
+
+/* scrollbar */
+*::-webkit-scrollbar{width:10px;height:10px}
+*::-webkit-scrollbar-track{background:transparent}
+*::-webkit-scrollbar-thumb{background:#222936;border-radius:10px}
+*::-webkit-scrollbar-thumb:hover{background:#2c3445}
+</style>
+</head>
+<body>
+<button class="menu-btn" id="menuBtn">☰ Меню</button>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-mark">П8</div>
+      <div>
+        <div class="brand-title">ПМ.08 Шпаргалка</div>
+        <div class="brand-sub">Проектирование интерфейсов</div>
+      </div>
+    </div>
+
+    <div class="search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="search" type="text" placeholder="Поиск по вопросам…" autocomplete="off">
+    </div>
+
+    <nav class="nav" id="nav">
+      <div class="nav-group">
+        <div class="nav-label">Старт</div>
+        <a href="#" data-section="home"><span>Главная</span></a>
+      </div>
+      <div class="nav-group">
+        <div class="nav-label">МДК 08.01</div>
+        <a href="#" data-section="theory"><span>Теоретические вопросы</span><span class="badge">50</span></a>
+        <a href="#" data-section="practice"><span>Практические задания</span><span class="badge">25</span></a>
+      </div>
+      <div class="nav-group">
+        <div class="nav-label">Экзамен ПМ.08</div>
+        <a href="#" data-section="v1"><span>Вариант 1</span><span class="badge">26</span></a>
+        <a href="#" data-section="v2"><span>Вариант 2</span><span class="badge">26</span></a>
+        <a href="#" data-section="v3"><span>Вариант 3</span><span class="badge">26</span></a>
+        <a href="#" data-section="crit"><span>Критерии оценки</span></a>
+      </div>
+    </nav>
+
+    <button class="theme-toggle" id="themeBtn">
+      <span id="themeIcon">☾</span><span id="themeLbl">Светлая тема</span>
+    </button>
+  </aside>
+
+  <main class="main" id="main">
+
+    <!-- ============ HOME ============ -->
+    <section class="section active" id="sec-home">
+      <div class="section-head">
+        <span class="eyebrow">Шпаргалка к экзамену</span>
+        <h1>Полные ответы по ПМ.08 и МДК.08.01</h1>
+        <p class="lead">Все 50 теоретических вопросов, 25 практических заданий из МДК и все 3 варианта экзамена с тестами, открытыми вопросами и практической работой. Ответы можно сворачивать, искать по ключевым словам и копировать код одним кликом.</p>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat"><div class="num">50</div><div class="lbl">теор. вопросов МДК</div></div>
+        <div class="stat"><div class="num">25</div><div class="lbl">практ. заданий МДК</div></div>
+        <div class="stat"><div class="num">60</div><div class="lbl">тестов в экзамене</div></div>
+        <div class="stat"><div class="num">3</div><div class="lbl">варианта экзамена</div></div>
+      </div>
+
+      <div class="tip">
+        <span class="ic">💡</span>
+        <div>
+          <b>Как пользоваться:</b> выбирай раздел слева. Внутри раздела клик по вопросу раскрывает ответ. В тестах правильный вариант подсвечен зелёным. В практических заданиях код можно скопировать кнопкой в правом верхнем углу блока кода. Поиск работает по всем разделам — ищет совпадения в тексте вопросов.
+        </div>
+      </div>
+
+      <div class="tip" style="background:rgba(61,214,140,.08);border-color:rgba(61,214,140,.25)">
+        <span class="ic">🎯</span>
+        <div>
+          <b>Шкала оценки:</b> 41–45 баллов — «5», 32–40 — «4», 23–31 — «3». Максимум: 25 за тесты + 20 за практику. Полные критерии — в разделе «Критерии оценки».
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ THEORY ============ -->
+    <section class="section" id="sec-theory">
+      <div class="section-head">
+        <span class="eyebrow">МДК 08.01 · теория</span>
+        <h1>50 теоретических вопросов</h1>
+        <p class="lead">Полные ответы на все теоретические вопросы из перечня МДК.08.01. Жми по карточке, чтобы развернуть ответ.</p>
+      </div>
+      <div class="toolbar">
+        <button data-action="expand" data-target="theory">Раскрыть все</button>
+        <button data-action="collapse" data-target="theory">Свернуть все</button>
+        <div class="spacer"></div>
+        <div class="meta"><span id="theory-count">50</span> вопросов</div>
+      </div>
+      <div id="list-theory"></div>
+    </section>
+
+    <!-- ============ PRACTICE ============ -->
+    <section class="section" id="sec-practice">
+      <div class="section-head">
+        <span class="eyebrow">МДК 08.01 · практика</span>
+        <h1>25 практических заданий</h1>
+        <p class="lead">Готовые решения с кодом HTML/CSS/SCSS. Под каждым заданием — рабочий пример и краткое пояснение.</p>
+      </div>
+      <div class="toolbar">
+        <button data-action="expand" data-target="practice">Раскрыть все</button>
+        <button data-action="collapse" data-target="practice">Свернуть все</button>
+        <div class="spacer"></div>
+        <div class="meta"><span id="practice-count">25</span> заданий</div>
+      </div>
+      <div id="list-practice"></div>
+    </section>
+
+    <!-- ============ V1 ============ -->
+    <section class="section" id="sec-v1">
+      <div class="section-head">
+        <span class="eyebrow">Экзамен ПМ.08 · Вариант 1</span>
+        <h1>Вариант 1 — тесты, открытые вопросы, практика</h1>
+        <p class="lead">20 тестов с подсвеченным правильным ответом и пояснением, 5 открытых вопросов и практическое задание по Flex-сетке.</p>
+      </div>
+      <h2 style="margin:24px 0 8px;font-size:18px">Часть 1. Тестовые вопросы (1 балл за каждый)</h2>
+      <div id="list-v1-tests"></div>
+      <h2 style="margin:32px 0 8px;font-size:18px">Часть 2. Открытые вопросы (1 балл за каждый)</h2>
+      <div id="list-v1-open"></div>
+      <h2 style="margin:32px 0 8px;font-size:18px">Часть 3. Практическая работа</h2>
+      <div id="list-v1-prac"></div>
+    </section>
+
+    <!-- ============ V2 ============ -->
+    <section class="section" id="sec-v2">
+      <div class="section-head">
+        <span class="eyebrow">Экзамен ПМ.08 · Вариант 2</span>
+        <h1>Вариант 2 — тесты, открытые вопросы, практика</h1>
+        <p class="lead">20 тестов, 5 открытых вопросов и практическое задание по прототипированию интерфейса в Figma.</p>
+      </div>
+      <h2 style="margin:24px 0 8px;font-size:18px">Часть 1. Тестовые вопросы</h2>
+      <div id="list-v2-tests"></div>
+      <h2 style="margin:32px 0 8px;font-size:18px">Часть 2. Открытые вопросы</h2>
+      <div id="list-v2-open"></div>
+      <h2 style="margin:32px 0 8px;font-size:18px">Часть 3. Практическая работа</h2>
+      <div id="list-v2-prac"></div>
+    </section>
+
+    <!-- ============ V3 ============ -->
+    <section class="section" id="sec-v3">
+      <div class="section-head">
+        <span class="eyebrow">Экзамен ПМ.08 · Вариант 3</span>
+        <h1>Вариант 3 — тесты, открытые вопросы, практика</h1>
+        <p class="lead">20 тестов, 5 открытых вопросов и практика — адаптивная карточка товара (HTML/CSS).</p>
+      </div>
+      <h2 style="margin:24px 0 8px;font-size:18px">Часть 1. Тестовые вопросы</h2>
+      <div id="list-v3-tests"></div>
+      <h2 style="margin:32px 0 8px;font-size:18px">Часть 2. Открытые вопросы</h2>
+      <div id="list-v3-open"></div>
+      <h2 style="margin:32px 0 8px;font-size:18px">Часть 3. Практическая работа</h2>
+      <div id="list-v3-prac"></div>
+    </section>
+
+    <!-- ============ CRIT ============ -->
+    <section class="section" id="sec-crit">
+      <div class="section-head">
+        <span class="eyebrow">Критерии</span>
+        <h1>Критерии оценивания</h1>
+        <p class="lead">Структура баллов по тестам и практике + шкала перевода в итоговую оценку.</p>
+      </div>
+
+      <h2 style="font-size:17px;margin-top:18px">Теоретическая часть</h2>
+      <div class="table-wrap">
+        <table class="crit">
+          <thead><tr><th>Вопросы</th><th>Критерий</th><th class="score">Балл</th></tr></thead>
+          <tbody>
+            <tr><td>№1–20 (тесты)</td><td>Корректный ответ</td><td class="score">1 × 20</td></tr>
+            <tr><td>№21–25 (открытые)</td><td>Корректный развёрнутый ответ</td><td class="score">1 × 5</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 style="font-size:17px;margin-top:18px">Практическая часть</h2>
+      <div class="table-wrap">
+        <table class="crit">
+          <thead><tr><th>Критерий</th><th>Требования</th><th class="score">Балл</th></tr></thead>
+          <tbody>
+            <tr class="var-row"><td colspan="3">Вариант 1 — Flex-сетка и меню</td></tr>
+            <tr><td>Структура HTML</td><td>Семантика: header, nav, ul, li, a. Без лишних div.</td><td class="score">4</td></tr>
+            <tr><td>Позиционирование</td><td>Меню в ряд, элементы распределены равномерно через Flexbox.</td><td class="score">5</td></tr>
+            <tr><td>Анимация</td><td>Плавное появление линии при :hover без «скачков» контента.</td><td class="score">5</td></tr>
+            <tr><td>Адаптивность</td><td>При &lt; 600px блоки перестраиваются в колонку по центру.</td><td class="score">4</td></tr>
+            <tr><td>Качество кода</td><td>Читаем, отформатирован, без синтаксических ошибок.</td><td class="score">2</td></tr>
+
+            <tr class="var-row"><td colspan="3">Вариант 2 — Прототип в Figma</td></tr>
+            <tr><td>Структура макета</td><td>Все элементы по ТЗ (меню, заголовки, поле ввода, CTA, фото).</td><td class="score">4</td></tr>
+            <tr><td>Модульная сетка</td><td>Grid Layout 12 колонок, выравнивание по направляющим.</td><td class="score">4</td></tr>
+            <tr><td>Auto Layout</td><td>Auto Layout у кнопок и логических групп.</td><td class="score">5</td></tr>
+            <tr><td>Стили документа</td><td>2 текстовых + 2 цветовых стиля, применены везде.</td><td class="score">5</td></tr>
+            <tr><td>Визуальная иерархия</td><td>Контраст, H1 — самый крупный, CTA — акцент.</td><td class="score">2</td></tr>
+
+            <tr class="var-row"><td colspan="3">Вариант 3 — Карточка товара</td></tr>
+            <tr><td>Структура HTML</td><td>Все элементы карточки, разумная семантика.</td><td class="score">4</td></tr>
+            <tr><td>Стилизация</td><td>≤ 320px, border-radius, базовая тень.</td><td class="score">4</td></tr>
+            <tr><td>Адаптивность фото</td><td>max-width: 100% — фото не вылезает.</td><td class="score">4</td></tr>
+            <tr><td>Интерактивность</td><td>Плавное поднятие карточки и смена цвета кнопки.</td><td class="score">6</td></tr>
+            <tr><td>Качество кода</td><td>Без конфликтов стилей и логических ошибок.</td><td class="score">2</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 style="font-size:17px;margin-top:18px">Шкала перевода баллов</h2>
+      <div class="table-wrap">
+        <table class="crit">
+          <thead><tr><th>Процент</th><th>Сумма баллов</th><th class="score">Оценка</th></tr></thead>
+          <tbody>
+            <tr><td>90–100%</td><td>41–45 баллов</td><td class="score" style="color:var(--ok)">5</td></tr>
+            <tr><td>70–89%</td><td>32–40 баллов</td><td class="score" style="color:var(--accent)">4</td></tr>
+            <tr><td>50–69%</td><td>23–31 балл</td><td class="score" style="color:var(--warn)">3</td></tr>
+            <tr><td>&lt; 50%</td><td>0–22 балла</td><td class="score" style="color:var(--bad)">2</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
