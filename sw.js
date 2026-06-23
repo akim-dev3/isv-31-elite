@@ -2,7 +2,7 @@
    Стратегия: cache-first для всех собственных ресурсов и шрифтов CDN.
    При обновлении сайта меняем CACHE_VERSION — старый кэш будет вычищен. */
 
-const CACHE_VERSION = "pm08-cheat-v3";
+const CACHE_VERSION = "pm08-cheat-v4";
 
 const CORE_ASSETS = [
   "./",
@@ -44,25 +44,57 @@ self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
 
+  const url = new URL(req.url);
+  const isSameOrigin = url.origin === self.location.origin;
+
+  // 1) Навигация (index.html) — Network-First.
+  //    Свежая версия HTML всегда подтянется при наличии интернета,
+  //    а оффлайн — отдадим кэш.
+  if (req.mode === "navigate") {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          const copy = res.clone();
+          caches.open(CACHE_VERSION).then((cache) => cache.put(req, copy));
+          return res;
+        })
+        .catch(() => caches.match(req).then((c) => c || caches.match("./index.html")))
+    );
+    return;
+  }
+
+  // 2) Наши JS/CSS/JSON (app.js, data.js, manifest.json, vendor/*) —
+  //    Stale-While-Revalidate: моментально отдаём из кэша, а в фоне
+  //    скачиваем свежую версию для следующего открытия.
+  if (isSameOrigin && /\.(js|css|json|svg)$/i.test(url.pathname)) {
+    event.respondWith(
+      caches.match(req).then((cached) => {
+        const network = fetch(req)
+          .then((res) => {
+            if (res && res.status === 200) {
+              const copy = res.clone();
+              caches.open(CACHE_VERSION).then((cache) => cache.put(req, copy));
+            }
+            return res;
+          })
+          .catch(() => cached);
+        return cached || network;
+      })
+    );
+    return;
+  }
+
+  // 3) Всё остальное (шрифты CDN, картинки) — Cache-First.
   event.respondWith(
     caches.match(req).then((cached) => {
       if (cached) return cached;
-
-      return fetch(req)
-        .then((res) => {
-          // кэшируем только успешные ответы и только http(s)
-          if (res && res.status === 200 && (req.url.startsWith("http://") || req.url.startsWith("https://"))) {
-            const copy = res.clone();
-            caches.open(CACHE_VERSION).then((cache) => cache.put(req, copy));
-          }
-          return res;
-        })
-        .catch(() => {
-          // оффлайн и нет в кэше — отдадим index.html как fallback для навигации
-          if (req.mode === "navigate") {
-            return caches.match("./index.html");
-          }
-        });
+      return fetch(req).then((res) => {
+        if (res && res.status === 200 && (url.protocol === "http:" || url.protocol === "https:")) {
+          const copy = res.clone();
+          caches.open(CACHE_VERSION).then((cache) => cache.put(req, copy));
+        }
+        return res;
+      }).catch(() => undefined);
     })
   );
 });

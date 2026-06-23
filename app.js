@@ -302,7 +302,7 @@
     }
   }
 
-  document.getElementById("nav").addEventListener("click", (e) => {
+  document.getElementById("nav")?.addEventListener("click", (e) => {
     const a = e.target.closest("a[data-section]");
     if (!a) return;
     e.preventDefault();
@@ -314,7 +314,7 @@
   // -----------------------------------------------------------
   const searchInput = document.getElementById("search");
   let searchTimer;
-  searchInput.addEventListener("input", () => {
+  searchInput?.addEventListener("input", () => {
     clearTimeout(searchTimer);
     searchTimer = setTimeout(runSearch, 120);
   });
@@ -357,7 +357,7 @@
   // клик вне сайдбара — закрыть (mobile)
   document.addEventListener("click", (e) => {
     if (window.innerWidth > 900) return;
-    if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
+    if (sidebar && !sidebar.contains(e.target) && menuBtn && !menuBtn.contains(e.target)) {
       sidebar.classList.remove("open");
     }
   });
@@ -371,6 +371,7 @@
 
   const applyTheme = (t) => {
     document.documentElement.dataset.theme = t;
+    if (!themeIcon || !themeLbl) return;
     if (t === "light") {
       themeIcon.textContent = "☀";
       themeLbl.textContent  = "Тёмная тема";
@@ -383,7 +384,7 @@
   const savedTheme = localStorage.getItem("theme") || "dark";
   applyTheme(savedTheme);
 
-  themeBtn.addEventListener("click", () => {
+  themeBtn?.addEventListener("click", () => {
     const cur  = document.documentElement.dataset.theme === "light" ? "light" : "dark";
     const next = cur === "light" ? "dark" : "light";
     applyTheme(next);
@@ -400,6 +401,7 @@
 
   // обновить плавающую панель
   function refreshExportBar() {
+    if (!exportBar || !exportCount) return;
     const n = $$(".qa.picked").length;
     if (n > 0) {
       exportBar.classList.add("show");
@@ -449,14 +451,14 @@
   });
 
   // очистить выбор
-  exportClear.addEventListener("click", () => {
+  exportClear?.addEventListener("click", () => {
     $$(".qa.picked").forEach((c) => c.classList.remove("picked"));
     $$(".pick-all").forEach((b) => b.classList.remove("on"));
     refreshExportBar();
   });
 
   // экспорт в Word
-  exportBtn.addEventListener("click", exportToDocx);
+  exportBtn?.addEventListener("click", exportToDocx);
 
   /* =====================================================
      ЭКСПОРТ В WORD — ЧИСТОЕ ФОРМАТИРОВАНИЕ
