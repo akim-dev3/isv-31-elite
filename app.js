@@ -29,12 +29,18 @@
   //  ШАБЛОНЫ КАРТОЧЕК
   // -----------------------------------------------------------
 
+  // SVG галочка для чекбокса
+  const PICK_SVG = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+
   // обычный QA-блок (теория)
-  function tplQA(item, i) {
+  function tplQA(item, i, _offset, kind) {
+    // (kind пробрасывается, чтобы можно было разрисовывать data-kind разных типов)
+    const dKind = kind || "theory";
     const searchText = (item.q + " " + stripHtml(item.a)).toLowerCase();
     return `
-      <div class="qa" data-search="${escapeAttr(searchText)}">
+      <div class="qa" data-search="${escapeAttr(searchText)}" data-kind="${dKind}" data-idx="${i}">
         <div class="qa-head">
+          <div class="qa-pick" data-pick title="Выбрать для экспорта">${PICK_SVG}</div>
           <div class="qa-num">${i + 1}</div>
           <div class="qa-title">${item.q}</div>
           <svg class="qa-toggle" width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -48,7 +54,8 @@
   }
 
   // QA + блок кода (практика)
-  function tplPractice(item, i) {
+  function tplPractice(item, i, _offset, kind) {
+    const dKind = kind || "practice";
     const lang = item.lang || "html";
     const codeHtml = `
       <div class="code-wrap">
@@ -58,8 +65,9 @@
     `;
     const searchText = (item.q + " " + stripHtml(item.a) + " " + item.code).toLowerCase();
     return `
-      <div class="qa" data-search="${escapeAttr(searchText)}">
+      <div class="qa" data-search="${escapeAttr(searchText)}" data-kind="${dKind}" data-idx="${i}">
         <div class="qa-head">
+          <div class="qa-pick" data-pick title="Выбрать для экспорта">${PICK_SVG}</div>
           <div class="qa-num">${i + 1}</div>
           <div class="qa-title">${item.q}</div>
           <svg class="qa-toggle" width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -76,7 +84,7 @@
   }
 
   // тест с подсветкой правильного варианта
-  function tplTest(item, i) {
+  function tplTest(item, i, _offset, kind) {
     const letters = ["А", "Б", "В", "Г"];
     const opts = item.opts.map((opt, idx) => {
       // убираем "А) " в начале, если есть — букву покажем отдельно
@@ -93,8 +101,9 @@
     const searchText = (item.q + " " + item.opts.join(" ") + " " + stripHtml(item.explain || "")).toLowerCase();
 
     return `
-      <div class="qa" data-search="${escapeAttr(searchText)}">
+      <div class="qa" data-search="${escapeAttr(searchText)}" data-kind="${kind || "test"}" data-idx="${i}">
         <div class="qa-head">
+          <div class="qa-pick" data-pick title="Выбрать для экспорта">${PICK_SVG}</div>
           <div class="qa-num">${i + 1}</div>
           <div class="qa-title">${item.q}</div>
           <svg class="qa-toggle" width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -111,11 +120,12 @@
   }
 
   // открытый вопрос (с возможной вставкой кода внутри ответа)
-  function tplOpen(item, i, offset = 20) {
+  function tplOpen(item, i, offset = 20, kind) {
     const searchText = (item.q + " " + stripHtml(item.a)).toLowerCase();
     return `
-      <div class="qa" data-search="${escapeAttr(searchText)}">
+      <div class="qa" data-search="${escapeAttr(searchText)}" data-kind="${kind || "open"}" data-idx="${i}">
         <div class="qa-head">
+          <div class="qa-pick" data-pick title="Выбрать для экспорта">${PICK_SVG}</div>
           <div class="qa-num">${i + 1 + offset}</div>
           <div class="qa-title">${item.q}</div>
           <svg class="qa-toggle" width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -163,33 +173,42 @@
   // -----------------------------------------------------------
   //  РЕНДЕРИНГ СПИСКОВ
   // -----------------------------------------------------------
-  function renderList(containerId, items, tpl, offset = 0) {
+  function renderList(containerId, items, tpl, offset = 0, kind) {
     const node = document.getElementById(containerId);
     if (!node) return;
-    node.innerHTML = items.map((it, i) => tpl(it, i, offset)).join("");
+    node.innerHTML = items.map((it, i) => tpl(it, i, offset, kind)).join("");
   }
 
-  function renderPracticeWrapper(containerId, prac) {
+  function renderPracticeWrapper(containerId, prac, kind) {
     const node = document.getElementById(containerId);
     if (!node) return;
-    node.innerHTML = tplPracBig(prac);
+    // оборачиваем большую практику в .qa-подобную карточку, чтобы её тоже можно было выбрать для экспорта
+    node.innerHTML = `
+      <div class="qa open" data-kind="${kind}" data-idx="0" data-search="${escapeAttr((prac.title + " " + stripHtml(prac.desc)).toLowerCase())}">
+        <div class="qa-head">
+          <div class="qa-pick" data-pick title="Выбрать для экспорта">${PICK_SVG}</div>
+          <div class="qa-num">!</div>
+          <div class="qa-title">${prac.title}</div>
+        </div>
+        <div class="qa-body">${tplPracBig(prac)}</div>
+      </div>`;
   }
 
   function renderAll() {
-    renderList("list-theory",   DATA.theory,   tplQA);
-    renderList("list-practice", DATA.practice, tplPractice);
+    renderList("list-theory",   DATA.theory,   tplQA,       0, "theory");
+    renderList("list-practice", DATA.practice, tplPractice, 0, "practice");
 
-    renderList("list-v1-tests", DATA.v1_tests, tplTest);
-    renderList("list-v1-open",  DATA.v1_open,  tplOpen, 20);
-    renderPracticeWrapper("list-v1-prac", DATA.v1_prac);
+    renderList("list-v1-tests", DATA.v1_tests, tplTest, 0,  "v1_tests");
+    renderList("list-v1-open",  DATA.v1_open,  tplOpen, 20, "v1_open");
+    renderPracticeWrapper("list-v1-prac", DATA.v1_prac, "v1_prac");
 
-    renderList("list-v2-tests", DATA.v2_tests, tplTest);
-    renderList("list-v2-open",  DATA.v2_open,  tplOpen, 20);
-    renderPracticeWrapper("list-v2-prac", DATA.v2_prac);
+    renderList("list-v2-tests", DATA.v2_tests, tplTest, 0,  "v2_tests");
+    renderList("list-v2-open",  DATA.v2_open,  tplOpen, 20, "v2_open");
+    renderPracticeWrapper("list-v2-prac", DATA.v2_prac, "v2_prac");
 
-    renderList("list-v3-tests", DATA.v3_tests, tplTest);
-    renderList("list-v3-open",  DATA.v3_open,  tplOpen, 20);
-    renderPracticeWrapper("list-v3-prac", DATA.v3_prac);
+    renderList("list-v3-tests", DATA.v3_tests, tplTest, 0,  "v3_tests");
+    renderList("list-v3-open",  DATA.v3_open,  tplOpen, 20, "v3_open");
+    renderPracticeWrapper("list-v3-prac", DATA.v3_prac, "v3_prac");
 
     // подсветка синтаксиса
     if (window.hljs) {
@@ -203,9 +222,9 @@
   //  ВЗАИМОДЕЙСТВИЕ С КАРТОЧКАМИ (delegated)
   // -----------------------------------------------------------
   document.addEventListener("click", (e) => {
-    // раскрытие/сворачивание
+    // раскрытие/сворачивание (но не клик по чекбоксу выбора и не по копированию)
     const head = e.target.closest(".qa-head");
-    if (head && !e.target.closest("[data-copy]")) {
+    if (head && !e.target.closest("[data-copy]") && !e.target.closest("[data-pick]")) {
       head.parentElement.classList.toggle("open");
       return;
     }
@@ -370,6 +389,354 @@
     applyTheme(next);
     localStorage.setItem("theme", next);
   });
+
+  // -----------------------------------------------------------
+  //  РЕЖИМ ВЫБОРА + ЭКСПОРТ В .DOCX
+  // -----------------------------------------------------------
+  const exportBar   = document.getElementById("exportBar");
+  const exportCount = document.getElementById("exportCount");
+  const exportBtn   = document.getElementById("exportBtn");
+  const exportClear = document.getElementById("exportClear");
+
+  // обновить плавающую панель
+  function refreshExportBar() {
+    const n = $$(".qa.picked").length;
+    if (n > 0) {
+      exportBar.classList.add("show");
+      exportCount.textContent = "Выбрано: " + n;
+    } else {
+      exportBar.classList.remove("show");
+    }
+  }
+
+  // клик по чекбоксу карточки
+  document.addEventListener("click", (e) => {
+    const pick = e.target.closest("[data-pick]");
+    if (pick) {
+      e.stopPropagation();                  // не раскрывать карточку
+      const card = pick.closest(".qa");
+      card.classList.toggle("picked");
+      refreshExportBar();
+      return;
+    }
+
+    // toolbar: переключить режим выбора
+    const tb = e.target.closest("[data-action='select-mode']");
+    if (tb) {
+      document.body.classList.toggle("select-mode");
+      const on = document.body.classList.contains("select-mode");
+      $$(".select-toggle").forEach((b) => b.classList.toggle("on", on));
+      return;
+    }
+
+    // toolbar: выделить/снять все в разделе
+    const pa = e.target.closest("[data-action='pick-all']");
+    if (pa) {
+      // включить select-mode, если ещё не включён
+      if (!document.body.classList.contains("select-mode")) {
+        document.body.classList.add("select-mode");
+        $$(".select-toggle").forEach((b) => b.classList.add("on"));
+      }
+      const section = document.getElementById("sec-" + pa.dataset.target);
+      if (!section) return;
+      const cards = $$(".qa", section).filter((c) => !c.classList.contains("hidden"));
+      const allPicked = cards.every((c) => c.classList.contains("picked"));
+      cards.forEach((c) => c.classList.toggle("picked", !allPicked));
+      pa.classList.toggle("on", !allPicked);
+      refreshExportBar();
+      return;
+    }
+  });
+
+  // очистить выбор
+  exportClear.addEventListener("click", () => {
+    $$(".qa.picked").forEach((c) => c.classList.remove("picked"));
+    $$(".pick-all").forEach((b) => b.classList.remove("on"));
+    refreshExportBar();
+  });
+
+  // экспорт в Word
+  exportBtn.addEventListener("click", exportToDocx);
+
+  /* =====================================================
+     ЭКСПОРТ В WORD — ЧИСТОЕ ФОРМАТИРОВАНИЕ
+     ===================================================== */
+
+  // привязка kind → массив в DATA
+  const KIND_MAP = {
+    theory:    () => DATA.theory,
+    practice:  () => DATA.practice,
+    v1_tests:  () => DATA.v1_tests,
+    v1_open:   () => DATA.v1_open,
+    v1_prac:   () => [DATA.v1_prac],
+    v2_tests:  () => DATA.v2_tests,
+    v2_open:   () => DATA.v2_open,
+    v2_prac:   () => [DATA.v2_prac],
+    v3_tests:  () => DATA.v3_tests,
+    v3_open:   () => DATA.v3_open,
+    v3_prac:   () => [DATA.v3_prac]
+  };
+
+  const KIND_LABEL = {
+    theory:   "Теоретический вопрос МДК",
+    practice: "Практическое задание МДК",
+    v1_tests: "Вариант 1 · тест",
+    v1_open:  "Вариант 1 · открытый вопрос",
+    v1_prac:  "Вариант 1 · практическая работа",
+    v2_tests: "Вариант 2 · тест",
+    v2_open:  "Вариант 2 · открытый вопрос",
+    v2_prac:  "Вариант 2 · практическая работа",
+    v3_tests: "Вариант 3 · тест",
+    v3_open:  "Вариант 3 · открытый вопрос",
+    v3_prac:  "Вариант 3 · практическая работа"
+  };
+
+  // экранирование текста для HTML
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  // упростить HTML ответа для Word — убрать inline code-классы, оставить читаемое
+  function cleanAnswerHtml(html) {
+    if (!html) return "";
+    return html
+      // 1) <pre><code …> с любыми классами/языком  → красивый блок кода (важно — ДО замены одиночных <code>)
+      .replace(/<pre[^>]*>\s*<code[^>]*>/gi,
+        '<pre style="font-family:Consolas,monospace;font-size:10pt;background:#f5f6fa;border:0.75pt solid #d8dce6;padding:8pt 10pt;color:#1a1f2c;white-space:pre-wrap">')
+      .replace(/<\/code>\s*<\/pre>/gi, '</pre>')
+      // 2) <code class="inline"> или 'inline' — однородный inline-стиль
+      .replace(/<code\s+class\s*=\s*["']inline["']\s*>/gi,
+        '<span style="font-family:Consolas,monospace;font-size:10.5pt;background:#f1f3f8;padding:1pt 4pt;color:#5a3df0">')
+      // 3) одиночные <code> без класса (на всякий случай — текст внутри тоже моноширинный)
+      .replace(/<code(\s[^>]*)?>/gi,
+        '<span style="font-family:Consolas,monospace;font-size:10.5pt;background:#f1f3f8;padding:1pt 4pt;color:#5a3df0">')
+      .replace(/<\/code>/gi, '</span>')
+      // 4) <table class="crit"> — обычная Word-таблица
+      .replace(/<table\s+class\s*=\s*["']crit["']\s*>/gi,
+        '<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:10.5pt">');
+  }
+
+  // ---- Рендер одного вопроса по типу ----
+
+  function renderTheory(item, num) {
+    return `
+<h2 class="card-title">${esc(item.q)}</h2>
+<p class="meta">${KIND_LABEL.theory} · №${num}</p>
+<div class="answer">${cleanAnswerHtml(item.a)}</div>
+<hr class="card-end"/>`;
+  }
+
+  function renderPracticeMDK(item, num) {
+    return `
+<h2 class="card-title">${esc(item.q)}</h2>
+<p class="meta">${KIND_LABEL.practice} · №${num}</p>
+<div class="answer">${cleanAnswerHtml(item.a)}</div>
+${item.code ? `<p class="code-label">Решение (${esc(item.lang || "html").toUpperCase()}):</p>
+<pre class="code-block">${esc(item.code)}</pre>` : ""}
+<hr class="card-end"/>`;
+  }
+
+  function renderTest(item, num, kindLabel) {
+    const letters = ["А", "Б", "В", "Г"];
+    // Таблица — Word отлично рендерит фон ячеек
+    const rows = item.opts.map((opt, idx) => {
+      const cleanOpt = opt.replace(/^[А-ГA-D]\)\s*/u, "");
+      const isOk = idx === item.correct;
+      const bg = isOk ? "background:#d6f5e3;" : "background:#ffffff;";
+      const weight = isOk ? "font-weight:bold;color:#0a6b3d;" : "color:#222;";
+      const mark = isOk ? '<span style="float:right;color:#0a6b3d;font-weight:bold">✓ ВЕРНО</span>' : "";
+      return `
+<tr>
+  <td width="36" style="${bg}border:0.5pt solid #c5cad6;text-align:center;font-weight:bold;color:#5a3df0;font-size:11pt">${letters[idx]}</td>
+  <td style="${bg}border:0.5pt solid #c5cad6;${weight}font-size:11pt">${esc(cleanOpt)} ${mark}</td>
+</tr>`;
+    }).join("");
+
+    return `
+<h2 class="card-title">${esc(item.q)}</h2>
+<p class="meta">${kindLabel} · №${num}</p>
+<table class="test-table" border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;margin:6pt 0">
+  ${rows}
+</table>
+${item.explain ? `<div class="explain-box"><b>Пояснение.</b> ${cleanAnswerHtml(item.explain)}</div>` : ""}
+<hr class="card-end"/>`;
+  }
+
+  function renderOpen(item, num, kindLabel) {
+    return `
+<h2 class="card-title">${esc(item.q)}</h2>
+<p class="meta">${kindLabel} · вопрос ${num}</p>
+<div class="answer">${cleanAnswerHtml(item.a)}</div>
+<hr class="card-end"/>`;
+  }
+
+  function renderPracBig(item, kindLabel) {
+    const blocks = (item.blocks || []).map((b) => `
+<p class="code-label">${esc(b.title)}</p>
+<pre class="code-block">${esc(b.code)}</pre>`).join("");
+
+    return `
+<h2 class="card-title">${esc(item.title)}</h2>
+<p class="meta">${kindLabel}</p>
+<div class="answer">${cleanAnswerHtml(item.desc)}</div>
+${blocks}
+${item.note ? `<div class="note-box"><b>Заметка.</b> ${cleanAnswerHtml(item.note)}</div>` : ""}
+<hr class="card-end"/>`;
+  }
+
+  // ---- Основная функция экспорта ----
+
+  function exportToDocx() {
+    const picked = $$(".qa.picked");
+    if (!picked.length) return;
+
+    const parts = picked.map((card) => {
+      const kind = card.dataset.kind;
+      const idx  = parseInt(card.dataset.idx, 10) || 0;
+      const source = KIND_MAP[kind]?.();
+      if (!source) return "";
+      const item = source[idx];
+      if (!item) return "";
+
+      const label = KIND_LABEL[kind] || "";
+
+      if (kind === "theory")    return renderTheory(item, idx + 1);
+      if (kind === "practice")  return renderPracticeMDK(item, idx + 1);
+      if (kind.endsWith("_tests")) return renderTest(item, idx + 1, label);
+      if (kind.endsWith("_open"))  return renderOpen(item, idx + 1 + 20, label);
+      if (kind.endsWith("_prac"))  return renderPracBig(item, label);
+      return "";
+    });
+
+    const now = new Date().toLocaleDateString("ru-RU");
+    const html = `
+<!doctype html>
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="utf-8">
+<title>Шпаргалка ПМ.08</title>
+<!--[if gte mso 9]>
+<xml>
+  <w:WordDocument>
+    <w:View>Print</w:View>
+    <w:Zoom>100</w:Zoom>
+  </w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+  /* ---------- Базовая типографика ---------- */
+  body { font-family: Calibri, "Segoe UI", Arial, sans-serif; font-size: 11pt; color: #222; line-height: 1.45; }
+  h1   { font-family: Calibri, Arial, sans-serif; font-size: 22pt; color: #5a3df0; margin: 0 0 4pt; }
+  .subtitle { color: #5b6477; font-size: 11pt; margin: 0 0 22pt; }
+
+  /* ---------- Карточка вопроса ---------- */
+  .card-title {
+    font-family: Calibri, Arial, sans-serif;
+    font-size: 14pt; color: #1a1f2c;
+    margin: 18pt 0 4pt; padding: 0 0 0 10pt;
+    border-left: 4pt solid #5a3df0;
+  }
+  .meta {
+    color: #8a93a6; font-size: 9pt; margin: 0 0 10pt; font-style: italic;
+  }
+  .answer p   { margin: 4pt 0; }
+  .answer ul,
+  .answer ol  { margin: 4pt 0 4pt 24pt; padding: 0; }
+  .answer li  { margin: 3pt 0; }
+  .answer b,
+  .answer strong { color: #1a1f2c; }
+  .answer table  { width: 100%; border-collapse: collapse; margin: 6pt 0; font-size: 10.5pt; }
+  .answer table th,
+  .answer table td { border: 0.5pt solid #c5cad6; padding: 4pt 6pt; }
+  .answer table th { background: #eef0f5; text-align: left; font-weight: bold; }
+
+  /* ---------- Код ---------- */
+  .code-label {
+    font-family: Calibri, Arial, sans-serif;
+    font-size: 10.5pt; color: #5a3df0;
+    font-weight: bold; margin: 10pt 0 2pt;
+  }
+  .code-block {
+    font-family: Consolas, "Courier New", monospace; font-size: 10pt;
+    background: #f5f6fa; border: 0.75pt solid #d8dce6;
+    padding: 8pt 10pt; color: #1a1f2c;
+    white-space: pre-wrap;
+    margin: 4pt 0 8pt;
+  }
+
+  /* ---------- Тесты ---------- */
+  .test-table { width: 100%; border-collapse: collapse; }
+
+  /* ---------- Пояснение / заметки ---------- */
+  .explain-box {
+    background: #f3efff; border-left: 3pt solid #5a3df0;
+    padding: 8pt 12pt; margin: 8pt 0; font-size: 10.5pt;
+  }
+  .explain-box b { color: #5a3df0; }
+  .note-box {
+    background: #fff9ef; border-left: 3pt solid #ffb86b;
+    padding: 8pt 12pt; margin: 10pt 0; font-size: 10.5pt;
+  }
+  .note-box b { color: #c97400; }
+
+  /* ---------- Разделитель между карточками ---------- */
+  .card-end {
+    border: 0; border-top: 0.75pt dashed #c5cad6;
+    margin: 22pt 0 0; height: 0;
+  }
+</style>
+</head>
+<body>
+  <h1>Шпаргалка по ПМ.08 / МДК.08.01</h1>
+  <p class="subtitle">Выбрано материалов: ${picked.length} &nbsp;·&nbsp; ${now}</p>
+  ${parts.join("\n")}
+</body>
+</html>`;
+
+    // 1) Настоящий .docx через html-docx-js
+    if (window.htmlDocx && typeof window.htmlDocx.asBlob === "function") {
+      try {
+        const blob = window.htmlDocx.asBlob(html);
+        triggerDownload(blob, "Шпаргалка_ПМ08.docx");
+        return;
+      } catch (err) {
+        console.warn("html-docx-js failed, fallback to .doc:", err);
+      }
+    }
+
+    // 2) Фолбэк — Word HTML (.doc)
+    const blob = new Blob(["﻿", html], { type: "application/msword" });
+    triggerDownload(blob, "Шпаргалка_ПМ08.doc");
+  }
+
+  function triggerDownload(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 100);
+  }
+
+  // -----------------------------------------------------------
+  //  PWA — Service Worker (оффлайн-режим)
+  // -----------------------------------------------------------
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js").catch((err) => {
+        console.warn("SW registration failed:", err);
+      });
+    });
+  }
 
   // -----------------------------------------------------------
   //  СТАРТ
