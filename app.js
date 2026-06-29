@@ -20,6 +20,44 @@
   };
 
   // -----------------------------------------------------------
+  //  ПЕРЦЫ — ДАННЫЕ И ШАФФЛ
+  // -----------------------------------------------------------
+  const PERCI = [
+    { id: "ilusha", name: "Илюша", nick: "Бог", color: "#FFD700" },
+    { id: "egor", name: "Егор", nick: "Блендер", color: "#FF6B35" },
+    { id: "danya", name: "Даня", nick: "просто Даня", color: "#4DD0E1" },
+    { id: "vanya", name: "Ваня", nick: "Инсульт", color: "#FF4444" },
+    { id: "artem", name: "Артём", nick: "Чекушка", color: "#3DD68C" },
+    { id: "izma", name: "Изма", nick: "Славянин", color: "#64B5F6" },
+    { id: "vitya", name: "Витя", nick: "Еврей", color: "#BB86FC" }
+  ];
+
+  function mulberry32(a) {
+    return function() {
+      a |= 0; a = a + 0x6D2B79F5 | 0;
+      var t = Math.imul(a ^ a >>> 15, 1 | a);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+
+  function hashStr(s) {
+    let h = 0;
+    for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
+    return Math.abs(h);
+  }
+
+  function shuffleSeeded(arr, seed) {
+    const rng = mulberry32(seed);
+    const r = [...arr];
+    for (let i = r.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      [r[i], r[j]] = [r[j], r[i]];
+    }
+    return r;
+  }
+
+  // -----------------------------------------------------------
   //  ШАБЛОНЫ КАРТОЧЕК (остались только тесты, открытые вопросы и практика)
   // -----------------------------------------------------------
 
@@ -188,6 +226,139 @@
   }
 
   // -----------------------------------------------------------
+  //  РЕНДЕРИНГ ПЕРСОНАЛЬНЫХ ОТВЕТОВ
+  // -----------------------------------------------------------
+  function renderPercy(personId) {
+    const perc = PERCI.find(p => p.id === personId);
+    if (!perc) return;
+
+    const seed = hashStr(perc.id);
+    const container = document.getElementById("percContent");
+    if (!container) return;
+
+    const variants = [
+      { key: "v1", label: "Вариант 1" },
+      { key: "v2", label: "Вариант 2" },
+      { key: "v3", label: "Вариант 3" }
+    ];
+
+    let html = `
+      <div class="section-head">
+        <span class="eyebrow" style="color:${perc.color};background:${perc.color}22">Персональные ответы</span>
+        <h1>${perc.name} <span style="color:${perc.color}">\u201C${perc.nick}\u201D</span></h1>
+        <p class="lead">Уникальные ответы для ${perc.name}. Порядок вариантов ответов перемешан \u2014 не совпадает с ответами других участников.</p>
+      </div>`;
+
+    variants.forEach((v, vi) => {
+      html += `
+        <div class="perc-variant-header" data-perc-variant="${v.key}">
+          <div class="var-num">${vi + 1}</div>
+          <div class="var-title">${v.label} \u2014 тесты, открытые вопросы, практика</div>
+          <svg class="var-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="perc-variant-body" id="perc-body-${v.key}">
+          <h2 style="margin:12px 0 8px;font-size:18px">Часть 1. Тестовые вопросы</h2>
+          <div id="perc-tests-${v.key}"></div>
+          <h2 style="margin:24px 0 8px;font-size:18px">Часть 2. Открытые вопросы</h2>
+          <div id="perc-open-${v.key}"></div>
+          <h2 style="margin:24px 0 8px;font-size:18px">Часть 3. Практическая работа</h2>
+          <div id="perc-prac-${v.key}"></div>
+        </div>`;
+    });
+
+    container.innerHTML = html;
+
+    // Render content for each variant
+    variants.forEach((v, vi) => {
+      const variantSeed = seed + vi * 1000 + 42;
+      const tests = DATA[v.key + "_tests"];
+      const opens = DATA[v.key + "_open"];
+      const prac = DATA[v.key + "_prac"];
+
+      // Shuffled tests
+      const testsHtml = tests.map((test, ti) => {
+        const testSeed = variantSeed + ti * 100;
+        const indices = test.opts.map((_, idx) => idx);
+        const shuffled = shuffleSeeded(indices, testSeed);
+        const letters = ["А", "Б", "В", "Г"];
+        const opts = shuffled.map((origIdx, newPos) => {
+          const clean = test.opts[origIdx].replace(/^[А-ГA-D]\)\s*/u, "");
+          const isOk = origIdx === test.correct;
+          return `
+            <div class="test-opt ${isOk ? "correct" : ""}">
+              <div class="opt-letter">${letters[newPos]}</div>
+              <div>${clean}</div>
+            </div>`;
+        }).join("");
+        const searchText = (test.q + " " + test.opts.join(" ") + " " + stripHtml(test.explain || "")).toLowerCase();
+        return `
+          <div class="qa" data-search="${escapeAttr(searchText)}">
+            <div class="qa-head">
+              <div class="qa-num">${ti + 1}</div>
+              <div class="qa-title">${test.q}</div>
+              <svg class="qa-toggle" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="qa-body">
+              <div class="test-opts">${opts}</div>
+              ${test.explain ? `<div class="explain"><b>Пояснение.</b> ${test.explain}</div>` : ""}
+            </div>
+          </div>`;
+      }).join("");
+      document.getElementById(`perc-tests-${v.key}`).innerHTML = testsHtml;
+
+      // Open questions with shuffled content
+      const opensHtml = opens.map((q, qi) => {
+        const openSeed = variantSeed + qi * 100 + 500;
+        const div = document.createElement("div");
+        div.innerHTML = q.a;
+        // Shuffle direct children (p, ul, ol, h4, etc.)
+        const children = Array.from(div.children);
+        if (children.length > 1) {
+          shuffleSeeded(children, openSeed).forEach(c => div.appendChild(c));
+        }
+        // Shuffle li items within lists
+        div.querySelectorAll("ul, ol").forEach(list => {
+          const items = Array.from(list.children);
+          if (items.length > 1) {
+            shuffleSeeded(items, openSeed + 777).forEach(item => list.appendChild(item));
+          }
+        });
+        const answerHtml = div.innerHTML;
+        const searchText = (q.q + " " + stripHtml(answerHtml)).toLowerCase();
+        return `
+          <div class="qa" data-search="${escapeAttr(searchText)}">
+            <div class="qa-head">
+              <div class="qa-num">${qi + 1 + 20}</div>
+              <div class="qa-title">${q.q}</div>
+              <svg class="qa-toggle" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="qa-body">${answerHtml}</div>
+          </div>`;
+      }).join("");
+      document.getElementById(`perc-open-${v.key}`).innerHTML = opensHtml;
+
+      // Practice
+      document.getElementById(`perc-prac-${v.key}`).innerHTML = tplPracBig(prac);
+    });
+
+    // Highlight syntax
+    if (window.hljs) {
+      $$("#percContent pre code").forEach(el => {
+        try { hljs.highlightElement(el); } catch (_) {}
+      });
+    }
+
+    // Toggle variant headers
+    container.querySelectorAll("[data-perc-variant]").forEach(header => {
+      header.addEventListener("click", () => {
+        header.classList.toggle("open");
+        const body = header.nextElementSibling;
+        if (body) body.classList.toggle("open");
+      });
+    });
+  }
+
+  // -----------------------------------------------------------
   //  ВЗАИМОДЕЙСТВИЕ С КАРТОЧКАМИ (delegated)
   // -----------------------------------------------------------
   document.addEventListener("click", (e) => {
@@ -272,7 +443,21 @@
     const a = e.target.closest("a[data-section]");
     if (!a) return;
     e.preventDefault();
-    showSection(a.dataset.section);
+    const section = a.dataset.section;
+    if (section.startsWith("perc-")) {
+      const personId = section.replace("perc-", "");
+      renderPercy(personId);
+      showSection("percy");
+      $$("#percNav a").forEach(l => l.classList.remove("active"));
+      a.classList.add("active");
+    } else {
+      showSection(section);
+    }
+  });
+
+  // Collapsible \u201CПерцы\u201D toggle
+  document.getElementById("percToggle")?.addEventListener("click", () => {
+    document.getElementById("percGroup")?.classList.toggle("open");
   });
 
   // -----------------------------------------------------------
@@ -630,6 +815,13 @@ ${item.note ? `<div class="note-box"><b>Заметка.</b> ${cleanAnswerHtml(it
 
   // начальный раздел — из хеша или home
   const initial = (location.hash || "").replace(/^#/, "") || "home";
-  showSection(["home","v1","v2","v3","crit"].includes(initial) ? initial : "home");
+  if (initial.startsWith("perc-")) {
+    const personId = initial.replace("perc-", "");
+    renderPercy(personId);
+    showSection("percy");
+    $$("#percNav a").forEach(a => a.classList.toggle("active", a.dataset.section === initial));
+  } else {
+    showSection(["home","v1","v2","v3","crit"].includes(initial) ? initial : "home");
+  }
 
 })();

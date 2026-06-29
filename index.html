@@ -138,6 +138,25 @@ body:not(.select-mode) .qa-pick{display:none}
 *::-webkit-scrollbar-track{background:transparent}
 *::-webkit-scrollbar-thumb{background:#222936;border-radius:10px}
 *::-webkit-scrollbar-thumb:hover{background:#2c3445}
+/* Collapsible nav group */
+.nav-group.collapsible{margin-top:14px}
+.nav-group.collapsible .nav-toggle{display:flex;align-items:center;justify-content:space-between;padding:0 8px;cursor:pointer;user-select:none}
+.nav-group.collapsible .nav-toggle:hover span{color:var(--text)}
+.nav-group.collapsible .toggle-arrow{transition:transform .2s;opacity:.5}
+.nav-group.collapsible.open .toggle-arrow{transform:rotate(180deg);opacity:.8}
+.nav-group.collapsible .nav-sub{display:none;margin-top:4px}
+.nav-group.collapsible.open .nav-sub{display:block}
+.perc-nick{font-size:11px;margin-left:auto;font-weight:700;white-space:nowrap}
+.perc-hero{text-align:center;padding:20px 0 10px}
+.perc-hero .perc-name{font-size:28px;font-weight:800;margin:0}
+.perc-variant-header{display:flex;align-items:center;gap:12px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);margin:24px 0 12px;cursor:pointer;user-select:none}
+.perc-variant-header:hover{border-color:#2a3140}
+.perc-variant-header .var-num{width:32px;height:32px;border-radius:8px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:700;font-size:14px}
+.perc-variant-header .var-title{font-weight:700;font-size:16px;flex:1}
+.perc-variant-header .var-arrow{color:var(--text-dim);transition:transform .2s}
+.perc-variant-header.open .var-arrow{transform:rotate(180deg);color:var(--accent)}
+.perc-variant-body{display:none}
+.perc-variant-body.open{display:block}
 </style>
 </head>
 <body>
@@ -168,6 +187,21 @@ body:not(.select-mode) .qa-pick{display:none}
         <a href="#" data-section="v2"><span>Вариант 2</span><span class="badge">26</span></a>
         <a href="#" data-section="v3"><span>Вариант 3</span><span class="badge">26</span></a>
         <a href="#" data-section="crit"><span>Критерии оценки</span></a>
+      </div>
+      <div class="nav-group collapsible" id="percGroup">
+        <div class="nav-label nav-toggle" id="percToggle">
+          <span>Перцы</span>
+          <svg class="toggle-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="nav-sub" id="percNav">
+          <a href="#" data-section="perc-ilusha"><span>Илюша <span class="perc-nick" style="color:#FFD700">"Бог"</span></span></a>
+          <a href="#" data-section="perc-egor"><span>Егор <span class="perc-nick" style="color:#FF6B35">"Блендер"</span></span></a>
+          <a href="#" data-section="perc-danya"><span>Даня <span class="perc-nick" style="color:#4DD0E1">"просто Даня"</span></span></a>
+          <a href="#" data-section="perc-vanya"><span>Ваня <span class="perc-nick" style="color:#FF4444">"Инсульт"</span></span></a>
+          <a href="#" data-section="perc-artem"><span>Артём <span class="perc-nick" style="color:#3DD68C">"Чекушка"</span></span></a>
+          <a href="#" data-section="perc-izma"><span>Изма <span class="perc-nick" style="color:#64B5F6">"Славянин"</span></span></a>
+          <a href="#" data-section="perc-vitya"><span>Витя <span class="perc-nick" style="color:#BB86FC">"Еврей"</span></span></a>
+        </div>
       </div>
     </nav>
 
@@ -343,6 +377,11 @@ body:not(.select-mode) .qa-pick{display:none}
           </tbody>
         </table>
       </div>
+    </section>
+
+    <!-- ============ PERCY ============ -->
+    <section class="section" id="sec-percy">
+      <div id="percContent"></div>
     </section>
 
   </main>
