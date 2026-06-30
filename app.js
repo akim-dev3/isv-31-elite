@@ -907,7 +907,7 @@
       html += `
         <div class="perc-variant-header" data-perc-variant="${v.key}">
           <div class="var-num">${vi + 1}</div>
-          <div class="var-title">${v.label} \u2014 ${theme.varTitleSuffix}</div>
+          <div class="var-title">${v.label}</div>
           <svg class="var-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <div class="perc-variant-body" id="perc-body-${v.key}">
