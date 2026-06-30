@@ -2,7 +2,7 @@
    Стратегия: cache-first для всех собственных ресурсов и шрифтов CDN.
    При обновлении сайта меняем CACHE_VERSION — старый кэш будет вычищен. */
 
-const CACHE_VERSION = "pm08-cheat-v5";
+const CACHE_VERSION = "pm08-cheat-v12";
 
 const CORE_ASSETS = [
     "./",
@@ -14,7 +14,7 @@ const CORE_ASSETS = [
     "./vendor/html-docx.js",
     "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js",
     "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css",
-    "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap",
+    "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:wght@400;700;800;900&family=Russo+One&family=Caveat:wght@400;700&family=Marck+Script&family=Bebas+Neue&family=Cormorant+Garamond:wght@400;600;700&family=Press+Start+2P&display=swap",
 ];
 
 self.addEventListener("install", (event) => {
