@@ -81,6 +81,7 @@ code,pre,kbd{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
 .qa-body ul,.qa-body ol{margin:8px 0 8px 18px;padding:0}
 .qa-body li{margin:4px 0}
 .qa-body strong{color:var(--text)}
+[data-perc-theme] .qa-body strong{color:inherit}
 pre{background:var(--code-bg);border:1px solid #1c2230;border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55;margin:12px 0;position:relative;}
 pre code{font-family:'JetBrains Mono',monospace;color:#e6e9ef}
 .code-wrap{position:relative}
@@ -98,8 +99,9 @@ code.inline{background:var(--bg-elev);border:1px solid var(--border);padding:1px
 .explain b{color:var(--accent)}
 .practice{background:linear-gradient(180deg,var(--bg-card),var(--bg-elev));border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-top:14px;}
 .practice h3{margin:0 0 6px;font-size:18px}
-.practice .req{margin:14px 0;padding:14px 16px;background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;font-size:13.5px;}
+.practice .req{margin:14px 0;padding:14px 16px;background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;font-size:13.5px;color:var(--text);}
 .practice .req b{color:var(--accent)}
+.perc-variant-sep{border:none;border-top:2px solid var(--border);margin:56px 0 0}
 .table-wrap{overflow-x:auto;margin:14px 0}
 table.crit{width:100%;border-collapse:collapse;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;overflow:hidden;font-size:13.5px;}
 table.crit th,table.crit td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border);}
@@ -155,8 +157,7 @@ body:not(.select-mode) .qa-pick{display:none}
 .perc-variant-header .var-title{font-weight:700;font-size:16px;flex:1}
 .perc-variant-header .var-arrow{color:var(--text-dim);transition:transform .2s}
 .perc-variant-header.open .var-arrow{transform:rotate(180deg);color:var(--accent)}
-.perc-variant-body{display:none}
-.perc-variant-body.open{display:block}
+.perc-variant-body{display:block}
 .prac-preview-toggle{margin-top:12px;padding:8px 14px;border-radius:8px;background:var(--accent-soft);border:1px solid var(--border);color:var(--accent);cursor:pointer;font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:6px;font-family:'Manrope',sans-serif;transition:all .15s}
 .prac-preview-toggle:hover{border-color:var(--accent)}
 .prac-preview-toggle.active{background:var(--accent);color:#fff;border-color:var(--accent)}

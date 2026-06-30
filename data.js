@@ -1143,7 +1143,7 @@ DATA.v3_prac = {
 
   <article class="card">
     <img class="card__img"
-         src="https://picsum.photos/640/420"
+         src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=640&h=420&fit=crop&auto=format"
          alt="Беспроводные наушники AirSound Pro">
 
     <div class="card__body">
