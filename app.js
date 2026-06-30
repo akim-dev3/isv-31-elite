@@ -432,6 +432,95 @@
     }
   };
 
+  function buildPercPracStub(perc, theme, prac) {
+    const a = theme.accent;
+    const a2 = theme.accent2 || theme.accent;
+    const hasCode = (prac.blocks || []).some(b => b.lang === "html" || b.lang === "css");
+
+    if (!hasCode) {
+      const colorBlock = {
+        title: `Персональная палитра · ${perc.name} "${perc.nick}"`,
+        lang: "plaintext",
+        code: `ЦВЕТА (Color Styles) — ${perc.name}
+  Accent/600      ${a}   <- основной бренд, CTA
+  Accent/100      ${a2}  <- мягкий фон / подложка
+  Text/Heading    #0F1226
+  Text/Body       #4A5168
+  Surface/White   #FFFFFF
+  Surface/Bg      #F8F9FC`
+      };
+      return tplPracBig({ title: prac.title, desc: prac.desc, blocks: [colorBlock, ...(prac.blocks || [])], note: prac.note });
+    }
+
+    const stubHtml = `<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${escapeAttr(perc.name)}</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <article class="card">
+    <div class="card__cover"></div>
+    <div class="card__body">
+      <h3 class="card__title">${escapeAttr(perc.name)}</h3>
+      <p class="card__nick">"${escapeAttr(perc.nick)}"</p>
+      <div class="card__price">
+        <span class="card__price-new">5 990 руб.</span>
+        <span class="card__price-old">7 990 руб.</span>
+      </div>
+      <button class="card__btn" type="button">В корзину</button>
+    </div>
+  </article>
+</body>
+</html>`;
+
+    const stubCss = `*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0; padding: 40px;
+  font-family: system-ui, sans-serif;
+  background: #f0f0f0;
+  display: grid; place-items: center; min-height: 100vh;
+}
+.card {
+  width: 100%; max-width: 320px;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,.1);
+}
+.card__cover {
+  height: 200px;
+  background: linear-gradient(135deg, ${a}, ${a2});
+}
+.card__body {
+  padding: 18px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.card__title { margin: 0; font-size: 16px; font-weight: 700; color: ${a}; }
+.card__nick { margin: 0; font-size: 13px; color: #888; }
+.card__price { display: flex; align-items: baseline; gap: 10px; }
+.card__price-new { font-size: 18px; font-weight: 700; color: ${a}; }
+.card__price-old { font-size: 13px; color: #aaa; text-decoration: line-through; }
+.card__btn {
+  background: ${a}; color: #fff;
+  border: none; border-radius: 8px;
+  padding: 11px 20px; font-size: 14px; font-weight: 600;
+  cursor: pointer; width: 100%;
+}`;
+
+    return tplPracBig({
+      title: prac.title,
+      desc: prac.desc,
+      blocks: [
+        { title: "HTML (index.html)", lang: "html", code: stubHtml },
+        { title: "CSS (style.css)", lang: "css", code: stubCss }
+      ],
+      note: prac.note
+    });
+  }
+
   function buildMemeBlock(perc, theme) {
     const memeUrl = theme.memeUrl || "";
     const fallback = `https://placehold.co/640x480/000000/${(theme.accent || "#fff").replace("#", "")}.png?text=${encodeURIComponent("МЕЛСТРОЙ\n" + perc.nick.toUpperCase())}&font=oswald`;
@@ -508,6 +597,9 @@
       }
       [data-theme="dark"] [data-perc-theme="${id}"] .perc-variant-header .var-title{color:#f0ebe0}
       [data-perc-theme="${id}"] .perc-variant-header .var-arrow{color:${t.accent}}
+      [data-perc-theme="${id}"] .perc-variant-sep{border-color:${t.accent}55}
+      [data-perc-theme="${id}"] code.inline{color:${t.accent};background:${t.accent2}33;border-color:${t.accent}44}
+      ${id !== "egor" && id !== "maxim" ? `[data-theme="dark"] [data-perc-theme="${id}"] .test-opt.correct{color:#1a1612}` : ""}
       ${themeQaCss(id, t)}
     `;
   }
@@ -754,6 +846,7 @@
     }
     if (id === "maxim") {
       return `
+        [data-perc-theme="maxim"]{color:#f5e0e0}
         [data-perc-theme="maxim"] .qa{
           background:#1a0608;border:1px solid #4a1010;border-radius:0;
           border-left:4px solid #C8102E;
@@ -903,6 +996,7 @@
       </div>`;
 
     variants.forEach((v, vi) => {
+      if (vi > 0) html += `<hr class="perc-variant-sep">`;
       html += `
         <div class="perc-variant-body" id="perc-body-${v.key}">
           <h2 class="p-section-title">Часть 1. Тестовые вопросы</h2>
@@ -986,7 +1080,7 @@
       }).join("");
       document.getElementById(`perc-open-${v.key}`).innerHTML = opensHtml;
 
-      document.getElementById(`perc-prac-${v.key}`).innerHTML = tplPracBig(stripPracticeComments(prac));
+      document.getElementById(`perc-prac-${v.key}`).innerHTML = buildPercPracStub(perc, theme, prac);
     });
 
     // Highlight syntax
