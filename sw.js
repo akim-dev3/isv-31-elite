@@ -2,7 +2,7 @@
    Стратегия: cache-first для всех собственных ресурсов и шрифтов CDN.
    При обновлении сайта меняем CACHE_VERSION — старый кэш будет вычищен. */
 
-const CACHE_VERSION = "pm08-cheat-v13";
+const CACHE_VERSION = "pm08-cheat-v14";
 
 const CORE_ASSETS = [
     "./",

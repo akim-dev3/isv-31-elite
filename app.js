@@ -896,7 +896,6 @@
 
     let html = `
       <div data-perc-theme="${personId}">
-        ${buildMemeBlock(perc, theme)}
       <div style="display:none" hidden>
         <span class="eyebrow" style="color:${perc.color};background:${perc.color}22">Персональные ответы</span>
         <h1>${perc.name} <span style="color:${perc.color}">\u201C${perc.nick}\u201D</span></h1>
@@ -905,11 +904,6 @@
 
     variants.forEach((v, vi) => {
       html += `
-        <div class="perc-variant-header" data-perc-variant="${v.key}">
-          <div class="var-num">${vi + 1}</div>
-          <div class="var-title">${v.label}</div>
-          <svg class="var-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
         <div class="perc-variant-body" id="perc-body-${v.key}">
           <h2 class="p-section-title">Часть 1. Тестовые вопросы</h2>
           <div id="perc-tests-${v.key}"></div>
