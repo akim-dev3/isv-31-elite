@@ -248,196 +248,119 @@
       accent2: "#fff2b8",
       pageBg: "linear-gradient(180deg,#fffdf0 0%,#fff6d6 100%)",
       pageBgDark: "linear-gradient(180deg,#1a1608 0%,#0e0b04 100%)",
-      heroImg: "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1600&q=80",
-      heroOverlay: "linear-gradient(180deg,rgba(15,10,0,.45),rgba(15,10,0,.75))",
-      tagline: "Великий и могучий. Бурмалда изрекает истину.",
       symbol: "✦",
       titleFont: "'Playfair Display', Georgia, serif",
       bodyFont: "'Cormorant Garamond', Georgia, serif",
-      correctLabel: "✦ бурмалда верно",
-      varTitleSuffix: "Священное писание",
-      memeCap: "АЛЛО ЭТО БОГ\nЯ В ШОКЕ",
-      memeTag: "#бог",
-      memeUrl: "https://media.giphy.com/media/ZmvcCtD8vOD6cHji9T/giphy.gif"
+      correctLabel: "✦ бурмалда верно"
     },
     egor: {
       accent: "#FF6B35",
       accent2: "#ffb088",
       pageBg: "linear-gradient(180deg,#fff5ee 0%,#ffe6d4 100%)",
       pageBgDark: "linear-gradient(180deg,#0a0805 0%,#1a0e05 100%)",
-      heroImg: "https://images.unsplash.com/photo-1635322966219-b75ed372eb01?w=1600&q=80",
-      heroOverlay: "linear-gradient(135deg,rgba(255,107,53,.65),rgba(10,8,5,.85))",
-      tagline: "Перемешано до однородной массы",
       symbol: "⌬",
       titleFont: "'Russo One', 'JetBrains Mono', sans-serif",
       bodyFont: "'JetBrains Mono', Consolas, monospace",
-      correctLabel: "▶ blended_ok",
-      varTitleSuffix: "Render Layer",
-      memeCap: "ВСЁ В МИКСЕР\nТРИ ЛЯМА",
-      memeTag: "#блендер",
-      memeUrl: "https://media.giphy.com/media/HFhEf6CQcKEQXNkoha/giphy.gif"
+      correctLabel: "▶ blended_ok"
     },
     danya: {
       accent: "#4DD0E1",
       accent2: "#b2ebf2",
       pageBg: "linear-gradient(180deg,#fafdfe 0%,#f0fbfc 100%)",
       pageBgDark: "linear-gradient(180deg,#0a0e10 0%,#0a1416 100%)",
-      heroImg: "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=1600&q=80",
-      heroOverlay: "linear-gradient(180deg,rgba(77,208,225,.15),rgba(10,14,16,.35))",
-      tagline: "Минимализм. Без пафоса. Просто Даня.",
       symbol: "·",
       titleFont: "'Manrope', system-ui, sans-serif",
       bodyFont: "'Manrope', system-ui, sans-serif",
-      correctLabel: "просто верно",
-      varTitleSuffix: "Просто часть",
-      memeCap: "БРАТ ТЫ ЧЁ\nЛЕГЕНДА",
-      memeTag: "#простоданя",
-      memeUrl: "https://media.giphy.com/media/fYbMLz812TTFm2qs7o/giphy.gif"
+      correctLabel: "просто верно"
     },
     vanya: {
       accent: "#FF4444",
       accent2: "#ffb4b4",
       pageBg: "linear-gradient(180deg,#fff8f8 0%,#ffe9e9 100%)",
       pageBgDark: "linear-gradient(180deg,#150708 0%,#0a0405 100%)",
-      heroImg: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1600&q=80",
-      heroOverlay: "linear-gradient(135deg,rgba(255,68,68,.55),rgba(20,5,5,.85))",
-      tagline: "ЭКГ нестабильна. Срочно ответ!",
       symbol: "✚",
       titleFont: "'Bebas Neue', 'Manrope', sans-serif",
       bodyFont: "'Manrope', sans-serif",
-      correctLabel: "✚ диагноз верный",
-      varTitleSuffix: "История болезни",
-      memeCap: "ДОКТОР!\nЯ ВСЁ ПОНЯЛ",
-      memeTag: "#инсульт",
-      memeUrl: "https://media.giphy.com/media/Lacdhow6MzATtdNytw/giphy.gif"
+      correctLabel: "✚ диагноз верный"
     },
     artem: {
       accent: "#3DD68C",
       accent2: "#a8e6c1",
       pageBg: "linear-gradient(180deg,#fafaf2 0%,#f1f4e0 100%)",
       pageBgDark: "linear-gradient(180deg,#0a1108 0%,#06090a 100%)",
-      heroImg: "https://images.unsplash.com/photo-1569529465841-dfecdab7503b?w=1600&q=80",
-      heroOverlay: "linear-gradient(180deg,rgba(20,40,15,.65),rgba(10,15,8,.85))",
-      tagline: "Граненая правда. 250 мл истины.",
       symbol: "✦",
       titleFont: "'Russo One', 'Bebas Neue', sans-serif",
       bodyFont: "'Manrope', sans-serif",
-      correctLabel: "★ принято",
-      varTitleSuffix: "Тираж",
-      memeCap: "ПО ЧЕКУШКЕ\nИ НА ЭКЗАМЕН",
-      memeTag: "#чекушка",
-      memeUrl: "https://media.giphy.com/media/UqFr1fYiMq9r0uKry9/giphy.gif"
+      correctLabel: "★ принято"
     },
     izma: {
       accent: "#64B5F6",
       accent2: "#bbdefb",
       pageBg: "linear-gradient(180deg,#f7faff 0%,#e3efff 100%)",
       pageBgDark: "linear-gradient(180deg,#08111a 0%,#040810 100%)",
-      heroImg: "https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=1600&q=80",
-      heroOverlay: "linear-gradient(180deg,rgba(8,30,60,.45),rgba(8,15,30,.85))",
-      tagline: "Древний код предков. Истина славянская.",
       symbol: "❅",
       titleFont: "'Marck Script', 'Playfair Display', cursive",
       bodyFont: "'Cormorant Garamond', Georgia, serif",
-      correctLabel: "❅ истинно",
-      varTitleSuffix: "Сказание",
-      memeCap: "БРАТ ПО-РУССКИ\nТАК ИСТИННЕЕ",
-      memeTag: "#славянин",
-      memeUrl: "https://media.giphy.com/media/ekVeEZFN9a5eIG8hNv/giphy.gif"
+      correctLabel: "❅ истинно"
     },
     vitya: {
       accent: "#BB86FC",
       accent2: "#e1bee7",
       pageBg: "linear-gradient(180deg,#fbf8ff 0%,#efe4ff 100%)",
       pageBgDark: "linear-gradient(180deg,#10081a 0%,#080410 100%)",
-      heroImg: "https://images.unsplash.com/photo-1552423314-cf29ab68ad7c?w=1600&q=80",
-      heroOverlay: "linear-gradient(135deg,rgba(70,30,120,.55),rgba(15,8,30,.85))",
-      tagline: "Мудрость веков. Чёткая выгода.",
       symbol: "✡",
       titleFont: "'Cormorant Garamond', 'Playfair Display', serif",
       bodyFont: "'Cormorant Garamond', Georgia, serif",
-      correctLabel: "✡ премудро верно",
-      varTitleSuffix: "Свиток",
-      memeCap: "Я НЕ ЕВРЕЙ\nЯ БИЗНЕСМЕН",
-      memeTag: "#бизнес",
-      memeUrl: "https://media.giphy.com/media/JTPzqSpIOYeteuzPhV/giphy.gif"
+      correctLabel: "✡ премудро верно"
     },
     nikita: {
       accent: "#29B6F6",
       accent2: "#b3e5fc",
       pageBg: "linear-gradient(180deg,#f0f9ff 0%,#e1f5fe 100%)",
       pageBgDark: "linear-gradient(180deg,#04141f 0%,#02080f 100%)",
-      heroImg: "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=1600&q=80",
-      heroOverlay: "linear-gradient(180deg,rgba(0,40,80,.35),rgba(0,40,80,.85))",
-      tagline: "Глубокий вдох. Долгий выдох. Все ответы.",
       symbol: "༄",
       titleFont: "'Bebas Neue', 'Manrope', sans-serif",
       bodyFont: "'Manrope', sans-serif",
-      correctLabel: "༄ дыхание норм",
-      varTitleSuffix: "Карта симптомов",
-      memeCap: "ВДОХ-ВЫДОХ\nПОЕХАЛИ",
-      memeTag: "#астма",
-      memeUrl: "https://media.giphy.com/media/W1AzNrz8NkeN9LJvW5/giphy.gif"
+      correctLabel: "༄ дыхание норм"
     },
     maxim: {
       accent: "#C8102E",
       accent2: "#ffd700",
       pageBg: "linear-gradient(180deg,#1a0608 0%,#2a0a0f 100%)",
       pageBgDark: "linear-gradient(180deg,#0a0204 0%,#1a0508 100%)",
-      heroImg: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1600&q=80",
-      heroOverlay: "linear-gradient(135deg,rgba(200,16,46,.55),rgba(0,0,0,.85))",
-      tagline: "GG WP. Радиант наносит ответы.",
       symbol: "⚔",
       titleFont: "'Russo One', 'Bebas Neue', sans-serif",
       bodyFont: "'Russo One', 'Manrope', sans-serif",
-      correctLabel: "⚔ KILLED IT",
-      varTitleSuffix: "Match Replay",
-      memeCap: "AEGIS ВЗЯТ\nGG WP",
-      memeTag: "#дота2",
-      memeUrl: "https://media.giphy.com/media/kg8p6Se4UZo5Ooc0on/giphy.gif"
+      correctLabel: "⚔ KILLED IT"
     },
     artem2: {
       accent: "#B8860B",
       accent2: "#fff3c4",
       pageBg: "linear-gradient(180deg,#fff8e1 0%,#fff0b8 100%)",
       pageBgDark: "linear-gradient(180deg,#1a1408 0%,#0a0804 100%)",
-      heroImg: "https://images.unsplash.com/photo-1599946347371-68eb71b16afc?w=1600&q=80",
-      heroOverlay: "linear-gradient(180deg,rgba(40,25,5,.55),rgba(20,10,2,.9))",
-      tagline: "Древний свиток мудрости и торговли.",
       symbol: "✡",
       titleFont: "'Cormorant Garamond', serif",
       bodyFont: "'Cormorant Garamond', Georgia, serif",
-      correctLabel: "✡ ПРИНЯТО",
-      varTitleSuffix: "Свиток торы",
-      memeCap: "ТРАМ-ПАМ-ПАМ\nТРАМ-ПАМ-ПАМ",
-      memeTag: "#торгуем",
-      memeUrl: "https://media.giphy.com/media/C4imCg5z1rb8PaIcfj/giphy.gif"
+      correctLabel: "✡ ПРИНЯТО"
     },
     danya2: {
       accent: "#F06292",
       accent2: "#ffc1d6",
       pageBg: "linear-gradient(180deg,#fff5fa 0%,#ffe1ed 100%)",
       pageBgDark: "linear-gradient(180deg,#1a0a14 0%,#0a040a 100%)",
-      heroImg: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1600&q=80",
-      heroOverlay: "linear-gradient(180deg,rgba(150,40,90,.35),rgba(40,10,30,.85))",
-      tagline: "Каваий-десу! Сэнсэй знает ответы!",
       symbol: "✿",
       titleFont: "'Caveat', cursive",
       bodyFont: "'Manrope', sans-serif",
-      correctLabel: "✿ субаращии",
-      varTitleSuffix: "Арка",
-      memeCap: "БРАТ ЭТО АНИМЕ\nА Я СЭНСЭЙ",
-      memeTag: "#аниме",
-      memeUrl: "https://media.giphy.com/media/Yx7WARywsZiL1MZmoF/giphy.gif"
+      correctLabel: "✿ субаращии"
     }
   };
 
-  function buildPercPracStub(perc, theme, prac) {
+  function buildPercPracStub(perc, theme, prac, taskKey) {
     const a = theme.accent;
     const a2 = theme.accent2 || theme.accent;
-    const hasCode = (prac.blocks || []).some(b => b.lang === "html" || b.lang === "css");
 
-    if (!hasCode) {
+    // Вариант 2 — прототип в Figma, кода нет: добавляем личную палитру перед шагами
+    if (taskKey === "v2") {
       const colorBlock = {
         title: `Персональная палитра · ${perc.name} "${perc.nick}"`,
         lang: "plaintext",
@@ -452,6 +375,75 @@
       return tplPracBig({ title: prac.title, desc: prac.desc, blocks: [colorBlock, ...(prac.blocks || [])], note: prac.note });
     }
 
+    // Вариант 1 — Flex-шапка с меню
+    if (taskKey === "v1") {
+      const stubHtml = `<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${escapeAttr(perc.name)}</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="logo" href="/">${escapeAttr(perc.nick)}</a>
+
+    <nav class="nav">
+      <ul>
+        <li><a href="#">Главная</a></li>
+        <li><a href="#">О нас</a></li>
+        <li><a href="#">Услуги</a></li>
+        <li><a href="#">Блог</a></li>
+      </ul>
+    </nav>
+
+    <a class="btn" href="#contacts">Написать</a>
+  </header>
+</body>
+</html>`;
+
+      const stubCss = `*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, sans-serif; color: #1a1f2c; }
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px 32px;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .06);
+}
+
+.logo { font-weight: 800; font-size: 20px; color: ${a}; text-decoration: none; }
+
+.nav ul { list-style: none; display: flex; gap: 28px; margin: 0; padding: 0; }
+.nav a { text-decoration: none; color: #1a1f2c; font-weight: 600; font-size: 14px; }
+
+.btn {
+  background: ${a}; color: #fff;
+  padding: 10px 20px; border-radius: 8px;
+  text-decoration: none; font-weight: 600; font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .header { flex-direction: column; text-align: center; }
+  .nav ul { flex-direction: column; align-items: center; gap: 12px; }
+}`;
+
+      return tplPracBig({
+        title: prac.title,
+        desc: prac.desc,
+        blocks: [
+          { title: "HTML (index.html)", lang: "html", code: stubHtml },
+          { title: "CSS (style.css)", lang: "css", code: stubCss }
+        ],
+        note: prac.note
+      });
+    }
+
+    // Вариант 3 — карточка товара
     const stubHtml = `<!doctype html>
 <html lang="ru">
 <head>
@@ -521,15 +513,6 @@ body {
     });
   }
 
-  function buildMemeBlock(perc, theme) {
-    const memeUrl = theme.memeUrl || "";
-    const fallback = `https://placehold.co/640x480/000000/${(theme.accent || "#fff").replace("#", "")}.png?text=${encodeURIComponent("МЕЛСТРОЙ\n" + perc.nick.toUpperCase())}&font=oswald`;
-    return `
-      <div class="p-meme">
-        <img class="p-meme-img" src="${memeUrl}" alt="Мем с Мелстроем · ${escapeAttr(perc.name)}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null;this.src='${fallback}'"/>
-      </div>`;
-  }
-
   function buildThemeCss(id, t) {
     return `
       [data-perc-theme="${id}"]{
@@ -550,28 +533,6 @@ body {
       @media (max-width:900px){
         [data-perc-theme="${id}"]{margin:-60px -18px 0;padding:0 18px 60px}
       }
-      [data-perc-theme="${id}"] .p-hero{
-        position:relative;height:340px;border-radius:24px;overflow:hidden;
-        margin-top:36px;
-        background-image:${t.heroOverlay}, url('${t.heroImg}');
-        background-size:cover;background-position:center;
-        display:grid;place-items:center;text-align:center;color:#fff;
-        box-shadow:0 20px 60px rgba(0,0,0,.35);
-      }
-      [data-perc-theme="${id}"] .p-hero-symbol{
-        font-size:54px;color:${t.accent2};text-shadow:0 0 30px rgba(0,0,0,.6);margin-bottom:6px;
-      }
-      [data-perc-theme="${id}"] .p-hero-name{
-        font-family:var(--p-title-font);font-size:72px;font-weight:800;
-        margin:0;letter-spacing:2px;line-height:1;text-shadow:0 4px 30px rgba(0,0,0,.7);
-      }
-      [data-perc-theme="${id}"] .p-hero-nick{
-        color:${t.accent};font-family:var(--p-title-font);font-size:30px;font-style:italic;
-        margin-top:8px;text-shadow:0 2px 14px rgba(0,0,0,.7);
-      }
-      [data-perc-theme="${id}"] .p-hero-tag{
-        margin-top:14px;font-size:16px;opacity:.92;max-width:560px;
-      }
       [data-perc-theme="${id}"] .p-section-title{
         font-family:var(--p-title-font);color:${t.accent};
         font-size:22px;margin:28px 0 10px;font-weight:700;
@@ -580,24 +541,9 @@ body {
       [data-perc-theme="${id}"] .p-section-title::before{
         content:"${t.symbol}";color:${t.accent};font-size:24px;
       }
-      [data-perc-theme="${id}"] .perc-variant-header{
-        background:rgba(255,255,255,.5);
-        border:1px solid ${t.accent2};
-        border-left:6px solid ${t.accent};
-        border-radius:14px;margin:30px 0 14px;font-family:var(--p-title-font);
-      }
-      [data-theme="dark"] [data-perc-theme="${id}"] .perc-variant-header{
-        background:rgba(20,16,10,.6);border-color:${t.accent}55;
-      }
-      [data-perc-theme="${id}"] .perc-variant-header .var-num{
-        background:${t.accent};color:#fff;font-family:var(--p-title-font);
-      }
-      [data-perc-theme="${id}"] .perc-variant-header .var-title{
-        font-family:var(--p-title-font);color:#2a1f10;font-size:18px;
-      }
-      [data-theme="dark"] [data-perc-theme="${id}"] .perc-variant-header .var-title{color:#f0ebe0}
-      [data-perc-theme="${id}"] .perc-variant-header .var-arrow{color:${t.accent}}
-      [data-perc-theme="${id}"] .perc-variant-sep{border-color:${t.accent}55}
+      [data-perc-theme="${id}"] .perc-var-divider::before,
+      [data-perc-theme="${id}"] .perc-var-divider::after{background:${t.accent}55}
+      [data-perc-theme="${id}"] .perc-var-divider span{color:${t.accent}}
       [data-perc-theme="${id}"] code.inline{color:${t.accent};background:${t.accent2}33;border-color:${t.accent}44}
       ${id !== "egor" && id !== "maxim" ? `[data-theme="dark"] [data-perc-theme="${id}"] .test-opt.correct{color:#1a1612}` : ""}
       ${themeQaCss(id, t)}
@@ -988,15 +934,10 @@ body {
     ];
 
     let html = `
-      <div data-perc-theme="${personId}">
-      <div style="display:none" hidden>
-        <span class="eyebrow" style="color:${perc.color};background:${perc.color}22">Персональные ответы</span>
-        <h1>${perc.name} <span style="color:${perc.color}">\u201C${perc.nick}\u201D</span></h1>
-        <p class="lead">Уникальные ответы для ${perc.name}. Порядок вариантов ответов перемешан \u2014 не совпадает с ответами других участников.</p>
-      </div>`;
+      <div data-perc-theme="${personId}">`;
 
-    variants.forEach((v, vi) => {
-      if (vi > 0) html += `<hr class="perc-variant-sep">`;
+    variants.forEach((v) => {
+      html += `<div class="perc-var-divider"><span>${v.label}</span></div>`;
       html += `
         <div class="perc-variant-body" id="perc-body-${v.key}">
           <h2 class="p-section-title">Часть 1. Тестовые вопросы</h2>
@@ -1080,7 +1021,7 @@ body {
       }).join("");
       document.getElementById(`perc-open-${v.key}`).innerHTML = opensHtml;
 
-      document.getElementById(`perc-prac-${v.key}`).innerHTML = buildPercPracStub(perc, theme, prac);
+      document.getElementById(`perc-prac-${v.key}`).innerHTML = buildPercPracStub(perc, theme, prac, v.key);
     });
 
     // Highlight syntax
@@ -1090,14 +1031,6 @@ body {
       });
     }
 
-    // Toggle variant headers
-    container.querySelectorAll("[data-perc-variant]").forEach(header => {
-      header.addEventListener("click", () => {
-        header.classList.toggle("open");
-        const body = header.nextElementSibling;
-        if (body) body.classList.toggle("open");
-      });
-    });
   }
 
   // -----------------------------------------------------------
